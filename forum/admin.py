@@ -1,14 +1,17 @@
 from django.contrib import admin
 from forum.models import Profile, Post, Label, Comment
 
+
 # Register your models here.
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
     model = Profile
 
+
 @admin.register(Label)
 class LabelAdmin(admin.ModelAdmin):
-    model = Label 
+    model = Label
+
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
@@ -24,7 +27,7 @@ class PostAdmin(admin.ModelAdmin):
         "created_on",
     )
     list_editable = (
-        "title",    
+        "title",  
     )
     search_fields = (
         "title",
@@ -32,6 +35,7 @@ class PostAdmin(admin.ModelAdmin):
     )
     date_hierarchy = "created_on"
     save_on_top = True
+
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):

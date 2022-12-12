@@ -1,21 +1,39 @@
-from django.shortcuts import render
-from .models import Profile, Label, Post, Comment
+from django.http import Http404
+from django.shortcuts import render, redirect
+from .models import Post
+from .forms import SubmitForm
+
 
 # Create your views here.
-def index(request):
-    return render(request, 'forum/index.html')
-
-def post_list(request):
+def forum(request):
     posts = Post.objects.order_by('-updated_on')
     context = {
         'posts': posts,
     }
-    return render(request, 'forum/post_list.html', context)
+    return render(request, 'forum/forum.html', context)
 
-def post(request, slug):
-    post = Post.objects.get(slug=slug)
-    comments = Comment.objects
+
+def submit(request):
+    """
+    Submit a new post
+    """
+    if request.method == 'POST':
+        form = SubmitForm(request.POST)
+        if form.is_valid():
+            new_post = form.save(commit=False)
+            new_post.user = request.user
+            new_post.save()
+            return redirect('forum')
+    form = SubmitForm()
+    return render(request, 'forum/submit.html', {'form': form})
+
+
+def detailed_post(request, post_id):
+    post = Post.objects.get(pk=post_id)
+    # comments = Comment.objects
     context = {
         'post': post,
     }
-    return render(request, 'forum/post.html', context)
+    if post is not None:
+        return render(request, 'forum/post.html', context)
+    raise Http404('Post does not exist')
