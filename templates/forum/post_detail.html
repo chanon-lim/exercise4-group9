@@ -5,6 +5,8 @@
     <p>Last Updated: {{ post.updated_on }}</p>
     <p>{{ post.content }}</p>
 
+    <a href="{% url 'post_delete' post.id %}">Delete Post</a>
+
     <hr>
     <h3>Comments</h3>
     <form method="post" action=".">

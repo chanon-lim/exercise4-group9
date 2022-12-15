@@ -1,7 +1,7 @@
 {% extends 'base/base.html' %}
 
 {% block content %}
-    <button><a href="{% url 'submit' %}">Add a post</a></button>
+    <button><a href="{% url 'post_create' %}">Add a post</a></button>
     {% for post in posts %}
         <h3 class="test">{{ post.title }}</h3>
         <h5>{{ posts.labels }}</h5>

@@ -23,9 +23,6 @@ class Label(models.Model):
 
 
 class Post(models.Model):
-    class Meta:
-        ordering = ["-updated_on"]
-
     title = models.CharField(max_length=200)
     content = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
@@ -35,6 +32,20 @@ class Post(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     labels = models.ManyToManyField(Label, blank=True)
+
+    class Meta:
+        ordering = ["-updated_on"]
+
+    def __str__(self):
+        return 'Post {} by {} on {}'.format(
+            self.title,
+            self.user.username,
+            self.created_on,
+        )
+
+    def delete(self, request, *args, **kwargs):
+        if self.user == request.user:
+            super().delete(*args, **kwargs)
 
 
 class Comment(models.Model):

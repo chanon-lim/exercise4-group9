@@ -12,19 +12,23 @@ def forum(request):
     return render(request, 'forum/forum.html', context)
 
 
-def submit(request):
+def post_create(request):
     """
     Submit a new post
     """
     if request.method == 'POST':
-        form = SubmitForm(request.POST)
-        if form.is_valid():
-            new_post = form.save(commit=False)
-            new_post.user = request.user
-            new_post.save()
-            return redirect('forum')
-    form = SubmitForm()
-    return render(request, 'forum/submit.html', {'form': form})
+        submit_form = SubmitForm(request.POST)
+        if submit_form.is_valid():
+            post = submit_form.save(commit=False)
+            post.user = request.user
+            post.save()
+            return redirect('post_detail', post_id=post.pk)
+    submit_form = SubmitForm()
+
+    context = {
+        'form': submit_form
+    }
+    return render(request, 'forum/post_create.html', context)
 
 
 def post_detail(request, post_id):
@@ -47,6 +51,15 @@ def post_detail(request, post_id):
     }
 
     return render(request, 'forum/post_detail.html', context)
+
+
+def post_delete(request, post_id):
+    """
+    Delete a post, only same user can delete it
+    """
+    post = get_object_or_404(Post, pk=post_id)
+    post.delete(request=request)
+    return redirect('forum')
 
 
 def comment_delete(request, comment_id):
