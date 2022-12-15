@@ -1,10 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Post, Comment
 from .forms import SubmitForm, CommentForm
+from django.http import HttpResponseForbidden
 
 
 # Create your views here.
 def forum(request):
+    """
+    Homepage for forum
+    """
     posts = Post.objects.order_by('-updated_on')
     context = {
         'posts': posts,
@@ -51,6 +55,35 @@ def post_detail(request, post_id):
     }
 
     return render(request, 'forum/post_detail.html', context)
+
+
+def post_edit(request, post_id):
+    """
+    Edit a post, only same user can edit it
+    """
+    post = get_object_or_404(Post, pk=post_id)
+    default_value = {
+        'title': post.title,
+        'content': post.content,
+    }
+
+    if post.user != request.user:
+        return HttpResponseForbidden()
+
+    if request.method == 'POST':
+        submit_form = SubmitForm(request.POST)
+        if submit_form.is_valid():
+            post = submit_form.save(commit=False)
+            post.user = request.user
+            post.save()
+            return redirect('post_detail', post_id=post.pk)
+    submit_form = SubmitForm(initial=default_value)
+
+    context = {
+        'form': submit_form
+    }
+    # Use the post_create template for edit, may change later
+    return render(request, 'forum/post_create.html', context)
 
 
 def post_delete(request, post_id):

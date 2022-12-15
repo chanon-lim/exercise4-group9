@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.http import HttpResponseForbidden
 
 
 class Profile(models.Model):
@@ -44,7 +45,9 @@ class Post(models.Model):
         )
 
     def delete(self, request, *args, **kwargs):
-        if self.user == request.user:
+        if self.user != request.user:
+            return HttpResponseForbidden()
+        else:
             super().delete(*args, **kwargs)
 
 
@@ -73,5 +76,7 @@ class Comment(models.Model):
         )
 
     def delete(self, request, *args, **kwargs):
-        if self.user == request.user:
+        if self.user != request.user:
+            return HttpResponseForbidden()
+        else:
             super().delete(*args, **kwargs)
