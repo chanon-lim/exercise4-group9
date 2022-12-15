@@ -60,3 +60,7 @@ class Comment(models.Model):
             self.user.username,
             self.created_on,
         )
+
+    def delete(self, request, *args, **kwargs):
+        if self.user == request.user:
+            super().delete(*args, **kwargs)

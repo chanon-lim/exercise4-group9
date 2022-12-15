@@ -21,5 +21,6 @@
             </span>
         </p>
         {{ comment.content | linebreaks }}
+        <a href="{% url 'comment_delete' comment.id %}">Delete comment</a>
     {% endfor %}
 {% endblock content %}

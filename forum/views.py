@@ -47,3 +47,13 @@ def post_detail(request, post_id):
     }
 
     return render(request, 'forum/post_detail.html', context)
+
+
+def comment_delete(request, comment_id):
+    """
+    Delete a comment, only same user can delete it
+    """
+    comment = get_object_or_404(Comment, pk=comment_id)
+    comment.delete(request=request)
+    post_id = comment.post.pk
+    return redirect('post_detail', post_id)
