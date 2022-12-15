@@ -4,8 +4,12 @@
     <button><a href="{% url 'submit' %}">Add a post</a></button>
     {% for post in posts %}
         <h3 class="test">{{ post.title }}</h3>
-        <p>{{post.created_on}}</p>
-        <p>{{post.content}}</p>
-        <a href="{% url 'detailed_post' post.id %}">Go to detailed post</a>
+        <h5>{{ posts.labels }}</h5>
+        {% for label in posts.labels %}
+            <h5>{{ label }}</h5>
+        {% endfor %}
+        <p>{{ post.created_on }}</p>
+        <p>{{ post.content }}</p>
+        <a href="{% url 'post_detail' post.id %}">Go to detailed post</a>
     {% endfor %}
 {% endblock content %}

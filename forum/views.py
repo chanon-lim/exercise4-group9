@@ -1,7 +1,6 @@
-from django.http import Http404
-from django.shortcuts import render, redirect
-from .models import Post
-from .forms import SubmitForm
+from django.shortcuts import render, redirect, get_object_or_404
+from .models import Post, Comment
+from .forms import SubmitForm, CommentForm
 
 
 # Create your views here.
@@ -28,12 +27,23 @@ def submit(request):
     return render(request, 'forum/submit.html', {'form': form})
 
 
-def detailed_post(request, post_id):
-    post = Post.objects.get(pk=post_id)
-    # comments = Comment.objects
+def post_detail(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    comments = Comment.objects.filter(post=post)
+    comment_form = CommentForm(initial={'user': request.user.pk})
+
+    if request.method == 'POST':
+        comment_form = CommentForm(data=request.POST)
+        if comment_form.is_valid():
+            content = comment_form.cleaned_data['content']
+            comment = Comment(post=post, user=request.user, content=content)
+            comment.save()
+            return redirect('post_detail', post_id)
+
     context = {
         'post': post,
+        'comments': comments,
+        'comment_form': comment_form,
     }
-    if post is not None:
-        return render(request, 'forum/post.html', context)
-    raise Http404('Post does not exist')
+
+    return render(request, 'forum/post_detail.html', context)

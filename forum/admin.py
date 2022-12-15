@@ -27,7 +27,7 @@ class PostAdmin(admin.ModelAdmin):
         "created_on",
     )
     list_editable = (
-        "title",  
+        "title", 
     )
     search_fields = (
         "title",
