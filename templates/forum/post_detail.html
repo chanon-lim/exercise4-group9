@@ -5,8 +5,10 @@
     <p>Last Updated: {{ post.updated_on }}</p>
     <p>{{ post.content }}</p>
 
-    <a href="{% url 'post_delete' post.id %}">Delete Post</a> 
-    <a href="{% url 'post_edit' post.id %}">Edit Post</a>
+    {% if request.user == post.user %}
+        <a href="{% url 'post_delete' post.id %}">Delete Post</a> 
+        <a href="{% url 'post_edit' post.id %}">Edit Post</a>
+    {% endif %}
 
     <hr>
     <h3>Comments</h3>
@@ -24,6 +26,8 @@
             </span>
         </p>
         {{ comment.content | linebreaks }}
-        <a href="{% url 'comment_delete' comment.id %}">Delete comment</a>
+        {% if request.user == comment.user %}
+            <a href="{% url 'comment_delete' comment.id %}">Delete comment</a>
+        {% endif %}
     {% endfor %}
 {% endblock content %}

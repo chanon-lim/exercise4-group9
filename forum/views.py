@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 from .models import Post, Comment
 from .forms import SubmitForm, CommentForm
 from django.http import HttpResponseForbidden
@@ -16,6 +18,7 @@ def forum(request):
     return render(request, 'forum/forum.html', context)
 
 
+@login_required
 def post_create(request):
     """
     Submit a new post
@@ -40,13 +43,19 @@ def post_detail(request, post_id):
     comments = Comment.objects.filter(post=post)
     comment_form = CommentForm(initial={'user': request.user.pk})
 
+    # Post a comment only if login
     if request.method == 'POST':
-        comment_form = CommentForm(data=request.POST)
-        if comment_form.is_valid():
-            content = comment_form.cleaned_data['content']
-            comment = Comment(post=post, user=request.user, content=content)
-            comment.save()
-            return redirect('post_detail', post_id)
+        if request.user.is_authenticated:
+            comment_form = CommentForm(data=request.POST)
+            if comment_form.is_valid():
+                content = comment_form.cleaned_data['content']
+                comment = Comment(post=post, user=request.user, content=content)
+                comment.save()
+                return redirect('post_detail', post.pk)
+        else:
+            # Redirect to login page
+            login_url = reverse('account_login') + '?next={}'.format(request.path)
+            return redirect(login_url)
 
     context = {
         'post': post,
@@ -57,6 +66,7 @@ def post_detail(request, post_id):
     return render(request, 'forum/post_detail.html', context)
 
 
+@login_required
 def post_edit(request, post_id):
     """
     Edit a post, only same user can edit it
@@ -86,6 +96,7 @@ def post_edit(request, post_id):
     return render(request, 'forum/post_create.html', context)
 
 
+@login_required
 def post_delete(request, post_id):
     """
     Delete a post, only same user can delete it
@@ -95,6 +106,7 @@ def post_delete(request, post_id):
     return redirect('forum')
 
 
+@login_required
 def comment_delete(request, comment_id):
     """
     Delete a comment, only same user can delete it
