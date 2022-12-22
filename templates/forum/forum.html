@@ -1,23 +1,29 @@
 {% extends 'base/base.html' %}
 {% load socialaccount %}
 
-
 {% block content %}
     {% if user.is_authenticated %}
-    <p>Welcome, You are logged in as {{ user.username }}</p>
+        <p>Welcome, You are logged in as {{ user.username }}</p>
     {% else %}
-    <a href="{% provider_login_url 'google' %}">Login With Google</a>
+        <a class="btn btn-primary" href="{% provider_login_url 'google' %}">
+            Login With Google
+        </a>
     {% endif %}
 
-    <button><a href="{% url 'post_create' %}">Add a post</a></button>
+    <a class="btn btn-secondary" href="{% url 'post_create' %}">
+        Add a post
+    </a>
+
     {% for post in posts %}
-        <h3 class="test">{{ post.title }}</h3>
-        <h5>{{ posts.labels }}</h5>
-        {% for label in posts.labels %}
-            <h5>{{ label }}</h5>
-        {% endfor %}
-        <p>{{ post.created_on }}</p>
-        <p>{{ post.content }}</p>
-        <a href="{% url 'post_detail' post.id %}">Go to detailed post</a>
+        <div class="card mt-3">
+            <div class="card-body">
+                <h3 class="card-title">{{ post.title }}</h3>
+                <h5 class="card-subtitle mb-2 text-muted">{{ post.created_on }}</h5>
+                <p class="card-text">{{ post.content }}</p>
+                <a class="btn btn-primary" href="{% url 'post_detail' post.id %}">
+                    Go to detailed post
+                </a>
+            </div>
+        </div>
     {% endfor %}
 {% endblock content %}

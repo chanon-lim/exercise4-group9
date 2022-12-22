@@ -1,33 +1,46 @@
 {% extends 'base/base.html' %}
 
 {% block content %}
-    <h1>{{ post.title }}</h1>
-    <p>Last Updated: {{ post.updated_on }}</p>
-    <p>{{ post.content }}</p>
-
-    {% if request.user == post.user %}
-        <a href="{% url 'post_delete' post.id %}">Delete Post</a> 
-        <a href="{% url 'post_edit' post.id %}">Edit Post</a>
-    {% endif %}
+    <div class="card mt-3">
+        <div class="card-body">
+            <h1 class="card-title">{{ post.title }}</h1>
+            <h5 class="card-subtitle mb-2 text-muted">Last Updated: {{ post.updated_on }}</h5>
+            <p class="card-text">{{ post.content }}</p>
+            {% if request.user == post.user %}
+                <a class="btn btn-danger" href="{% url 'post_delete' post.id %}">
+                    Delete Post
+                </a> 
+                <a class="btn btn-primary" href="{% url 'post_edit' post.id %}">
+                    Edit Post
+                </a>
+            {% endif %}
+        </div>
+    </div>
 
     <hr>
     <h3>Comments</h3>
     <form method="post" action=".">
         {{ comment_form.as_p }}
         {% csrf_token %}
-        <button type="submit">Submit</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
     <hr>
     {% for comment in comments %}
-        <p class="font-weight-bold">
-            {{ comment.user.username }}
-            <span class="text-muted font-weight-normal">
-                {{ comment.created_on }}
-            </span>
-        </p>
-        {{ comment.content | linebreaks }}
-        {% if request.user == comment.user %}
-            <a href="{% url 'comment_delete' comment.id %}">Delete comment</a>
-        {% endif %}
+        <div class="card mt-3">
+            <div class="card-body">
+                <p class="card-text font-weight-bold">
+                    {{ comment.user.username }}
+                    <span class="text-muted font-weight-normal">
+                        {{ comment.created_on }}
+                    </span>
+                </p>
+                <p class="card-text">{{ comment.content | linebreaks }}</p>
+                {% if request.user == comment.user %}
+                    <a class="btn btn-danger" href="{% url 'comment_delete' comment.id %}">
+                        Delete comment
+                    </a>
+                {% endif %}
+            </div>
+        </div>
     {% endfor %}
 {% endblock content %}
