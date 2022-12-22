@@ -1,6 +1,14 @@
 {% extends 'base/base.html' %}
+{% load socialaccount %}
+
 
 {% block content %}
+    {% if user.is_authenticated %}
+    <p>Welcome, You are logged in as {{ user.username }}</p>
+    {% else %}
+    <a href="{% provider_login_url 'google' %}">Login With Google</a>
+    {% endif %}
+
     <button><a href="{% url 'post_create' %}">Add a post</a></button>
     {% for post in posts %}
         <h3 class="test">{{ post.title }}</h3>
