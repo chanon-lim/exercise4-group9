@@ -1,0 +1,29 @@
+{% extends 'base/base.html' %}
+{% load socialaccount %}
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <p>Welcome, You are logged in as {{ user.username }}</p>
+    {% else %}
+        <a class="btn btn-primary" href="{% provider_login_url 'google' %}">
+            Login With Google
+        </a>
+    {% endif %}
+
+    <a class="btn btn-secondary" href="{% url 'post_create' %}">
+        Add a post
+    </a>
+
+    {% for post in posts %}
+        <div class="card mt-3">
+            <div class="card-body">
+                <h3 class="card-title">{{ post.title }}</h3>
+                <h5 class="card-subtitle mb-2 text-muted">{{ post.created_on }}</h5>
+                <p class="card-text">{{ post.content }}</p>
+                <a class="btn btn-primary" href="{% url 'post_detail' post.id %}">
+                    Go to detailed post
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock content %}
