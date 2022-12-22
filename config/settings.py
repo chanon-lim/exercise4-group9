@@ -65,7 +65,7 @@ TEMPLATES_DIRS = os.path.join(BASE_DIR, 'templates')
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATES_DIRS],
+        'DIRS': [TEMPLATES_DIRS, os.path.join(BASE_DIR, 'templates', 'allauth')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -160,8 +160,11 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 
-# Site number 2 is 127.0.0.1:8000 as I created another site except from example.com
-SITE_ID = 2
+SITE_ID = 1
 
+SOCIAL_AUTH_GOOGLE_OAUTH2_WHITELISTED_DOMAINS = ['iniad.org']
+
+LOGIN_URL = '/accounts/google/login'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+ACCOUNT_LOGOUT_ON_GET = True  # Skip the confirm logout page

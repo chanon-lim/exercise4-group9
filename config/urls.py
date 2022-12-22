@@ -15,9 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from allauth.account.views import logout
+from allauth.socialaccount.providers.google.views import oauth2_login, oauth2_callback
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('forum.urls')),
-    path('accounts/', include('allauth.urls')),
+    # path('accounts/', include('allauth.urls')),
+    path('accounts/logout/', logout, name="account_logout"),
+    path('accounts/google/login/', oauth2_login, name="google_login"),
+    path('accounts/google/login/callback/', oauth2_callback, name="google_callback"),
 ]
