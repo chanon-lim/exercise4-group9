@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
+from django.http import HttpResponseForbidden
 from .models import Post, Comment
 from .forms import SubmitForm, CommentForm
-from django.http import HttpResponseForbidden
+from taggit.models import Tag
 
 
 # Create your views here.
@@ -12,8 +13,10 @@ def forum(request):
     Homepage for forum
     """
     posts = Post.objects.order_by('-updated_on')
+    common_tags = Post.tags.most_common()[:5]
     context = {
         'posts': posts,
+        'common_tags': common_tags,
     }
     return render(request, 'forum/forum.html', context)
 
@@ -29,6 +32,8 @@ def post_create(request):
             post = submit_form.save(commit=False)
             post.user = request.user
             post.save()
+            # For saving tag
+            submit_form.save_m2m()
             return redirect('post_detail', post_id=post.pk)
     submit_form = SubmitForm()
 
@@ -36,6 +41,20 @@ def post_create(request):
         'form': submit_form
     }
     return render(request, 'forum/post_create.html', context)
+
+
+def tag_view(request, tag_slug):
+    tag = get_object_or_404(Tag, slug=tag_slug)
+    # Filter posts by tag name
+    posts = Post.objects.filter(tags=tag)
+    common_tags = Post.tags.most_common()[:5]
+    context = {
+        'tag': tag,
+        'posts': posts,
+        'common_tags': common_tags,
+    }
+
+    return render(request, 'forum/forum.html', context)
 
 
 def post_detail(request, post_id):
@@ -75,6 +94,7 @@ def post_edit(request, post_id):
     default_value = {
         'title': post.title,
         'content': post.content,
+        'tags': post.tags.all,
     }
 
     if post.user != request.user:
@@ -86,6 +106,8 @@ def post_edit(request, post_id):
             post = submit_form.save(commit=False)
             post.user = request.user
             post.save()
+            # For saving tag
+            submit_form.save_m2m()
             return redirect('post_detail', post_id=post.pk)
     submit_form = SubmitForm(initial=default_value)
 

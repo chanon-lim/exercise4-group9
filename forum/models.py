@@ -2,6 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.http import HttpResponseForbidden
+from taggit.managers import TaggableManager
 
 
 class Profile(models.Model):
@@ -16,13 +17,6 @@ class Profile(models.Model):
         return self.user.get_username()
 
 
-class Label(models.Model):
-    name = models.CharField(max_length=50, unique=True)
-
-    def __str__(self):
-        return self.name
-
-
 class Post(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField()
@@ -32,7 +26,7 @@ class Post(models.Model):
     dislike = models.IntegerField(default=0)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    labels = models.ManyToManyField(Label, blank=True)
+    tags = TaggableManager()
 
     class Meta:
         ordering = ["-updated_on"]
