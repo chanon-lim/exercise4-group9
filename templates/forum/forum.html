@@ -20,6 +20,16 @@
         {% endfor %}
     </p>
 
+    <p>
+        Sort by: 
+        <a href="{% url 'forum' %}?order_by=latest_post">Latest Post</a>
+        <a href="{% url 'forum' %}?order_by=oldest_post">Oldest Post</a>
+        <a href="{% url 'forum' %}?order_by=most_recent_activity">Most Recent Activity</a>
+        <a href="{% url 'forum' %}?order_by=oldest_activity">Oldest Activity</a>
+        <a href="{% url 'forum' %}?order_by=most_like">Most Like</a>
+        <a href="{% url 'forum' %}?order_by=least_like">Least Like</a>
+    </p>
+
     {% for post in posts %}
         <div class="card mt-3">
             <div class="card-body">
@@ -29,6 +39,7 @@
                     <a href="{% url 'tag_view' tag.slug %}" class="">#{{ tag }}</a>
                 {% endfor %}
                 <p class="card-text">{{ post.content }}</p>
+                <p>{{ post.like.count }} likes</p>
                 <a class="btn btn-primary" href="{% url 'post_detail' post.id %}">
                     Go to detailed post
                 </a>

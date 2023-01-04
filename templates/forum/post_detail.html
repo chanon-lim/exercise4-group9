@@ -1,4 +1,5 @@
 {% extends 'base/base.html' %}
+{% load static %}
 
 {% block content %}
     <div class="card mt-3">
@@ -17,6 +18,9 @@
                     Edit Post
                 </a>
             {% endif %}
+            <div>
+                {% include "forum/post_like_area.html" %}
+            </div>
         </div>
     </div>
 
@@ -43,7 +47,19 @@
                         Delete comment
                     </a>
                 {% endif %}
+                <div>
+                    {% include "forum/comment_like_area.html" %}
+                </div>
             </div>
         </div>
     {% endfor %}
 {% endblock content %}
+
+{% block script %}
+<script src="https://unpkg.com/htmx.org@1.6.0"></script>
+<script>
+    document.body.addEventListener('htmx:configRequest', (e) => {
+        e.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+    })
+</script>
+{% endblock %}

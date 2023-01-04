@@ -1,6 +1,6 @@
-from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.db import models
 from django.http import HttpResponseForbidden
 from taggit.managers import TaggableManager
 
@@ -22,14 +22,10 @@ class Post(models.Model):
     content = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
-    like = models.IntegerField(default=0)
-    dislike = models.IntegerField(default=0)
 
+    like = models.ManyToManyField(User, blank=True, related_name='post_like')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     tags = TaggableManager()
-
-    class Meta:
-        ordering = ["-updated_on"]
 
     def __str__(self):
         return 'Post {} by {} on {}'.format(
@@ -49,9 +45,12 @@ class Comment(models.Model):
     content = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
-    like = models.IntegerField(default=0)
-    dislike = models.IntegerField(default=0)
 
+    like = models.ManyToManyField(
+        User,
+        blank=True,
+        related_name='comment_like'
+    )
     post = models.ForeignKey(
         Post,
         on_delete=models.CASCADE,
