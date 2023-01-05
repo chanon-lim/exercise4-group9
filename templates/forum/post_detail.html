@@ -1,6 +1,7 @@
 {% extends 'base/base.html' %}
 
 {% block content %}
+<div class="bg-info d-flex align-items-center justify-content-center" style="height:300px;">
     <div class="card mt-3">
         <div class="card-body">
             <h1 class="card-title">{{ post.title }}</h1>
@@ -16,7 +17,7 @@
             {% endif %}
         </div>
     </div>
-
+</div>
     <hr>
     <h3>Comments</h3>
     <form method="post" action=".">
