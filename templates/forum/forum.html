@@ -40,7 +40,14 @@
                     <a class="badge rounded-pill bg-light text-dark" href="{% url 'tag_view' tag.slug %}">#{{ tag }}</a>
                 {% endfor %}
                 <p class="card-text mt-2">{{ post.content|truncatechars:300 }}</p>
-                <p><i class="fa-regular fa-thumbs-up"></i> {{ post.like.count }}</p>
+                <p>
+                    {% if request.user in post.like.all %}
+                    <i class="fa-solid fa-thumbs-up fa-xl"></i>
+                    {% else %}
+                    <i class="fa-regular fa-thumbs-up fa-xl"></i> 
+                    {% endif %}
+                    {{ post.like.count }}
+                </p>
                 <a href="{% url 'post_detail' post.id %}" class="stretched-link"></a>
             </div>
         </div>
