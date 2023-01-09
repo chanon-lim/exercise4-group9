@@ -1,7 +1,8 @@
-from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.db import models
 from django.http import HttpResponseForbidden
+from taggit.managers import TaggableManager
 
 
 class Profile(models.Model):
@@ -16,26 +17,15 @@ class Profile(models.Model):
         return self.user.get_username()
 
 
-class Label(models.Model):
-    name = models.CharField(max_length=50, unique=True)
-
-    def __str__(self):
-        return self.name
-
-
 class Post(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
-    like = models.IntegerField(default=0)
-    dislike = models.IntegerField(default=0)
 
+    like = models.ManyToManyField(User, blank=True, related_name='post_like')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    labels = models.ManyToManyField(Label, blank=True)
-
-    class Meta:
-        ordering = ["-updated_on"]
+    tags = TaggableManager()
 
     def __str__(self):
         return 'Post {} by {} on {}'.format(
@@ -55,9 +45,12 @@ class Comment(models.Model):
     content = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
-    like = models.IntegerField(default=0)
-    dislike = models.IntegerField(default=0)
 
+    like = models.ManyToManyField(
+        User,
+        blank=True,
+        related_name='comment_like'
+    )
     post = models.ForeignKey(
         Post,
         on_delete=models.CASCADE,

@@ -1,9 +1,15 @@
 {% extends 'base/base.html' %}
+{% load static %}
 
 {% block content %}
-    <form action="." method="post">
+    <form action="." method="POST">
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" value="Post">
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 {% endblock content %}
+
+{% block script %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
+<script src="{% static 'js/tagsinput.js' %}"></script>
+{% endblock %}

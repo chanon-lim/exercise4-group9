@@ -1,16 +1,12 @@
 from django.contrib import admin
-from forum.models import Profile, Post, Label, Comment
+
+from forum.models import Comment, Post, Profile
 
 
 # Register your models here.
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
     model = Profile
-
-
-@admin.register(Label)
-class LabelAdmin(admin.ModelAdmin):
-    model = Label
 
 
 @admin.register(Post)
