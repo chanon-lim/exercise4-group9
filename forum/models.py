@@ -21,7 +21,6 @@ class Post(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
-    updated_on = models.DateTimeField(auto_now=True)
 
     like = models.ManyToManyField(User, blank=True, related_name='post_like')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -44,7 +43,6 @@ class Post(models.Model):
 class Comment(models.Model):
     content = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
-    updated_on = models.DateTimeField(auto_now=True)
 
     like = models.ManyToManyField(
         User,
