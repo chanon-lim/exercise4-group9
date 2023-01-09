@@ -2,32 +2,24 @@
 {% load socialaccount %}
 
 {% block content %}
-    {% if user.is_authenticated %}
-        <p>Welcome, You are logged in as {{ user.username }}</p>
-    {% else %}
-        <a class="btn btn-primary" href="{% provider_login_url 'google' %}">
-            Login With Google
-        </a>
-    {% endif %}
-
     <a class="btn btn-secondary" href="{% url 'post_create' %}">
         Add a post
     </a>
 
     <p>Common Tags: 
         {% for tag in common_tags %}
-            <a href="{% url 'tag_view' tag.slug %}" class="">{{ tag }}</a>
+            <a class="badge rounded-pill bg-light text-dark" href="{% url 'tag_view' tag.slug %}">#{{ tag }}</a>
         {% endfor %}
     </p>
 
     <p>
         Sort by: 
-        <a href="{% url 'forum' %}?order_by=latest_post">Latest Post</a>
-        <a href="{% url 'forum' %}?order_by=oldest_post">Oldest Post</a>
-        <a href="{% url 'forum' %}?order_by=most_recent_activity">Most Recent Activity</a>
-        <a href="{% url 'forum' %}?order_by=oldest_activity">Oldest Activity</a>
-        <a href="{% url 'forum' %}?order_by=most_like">Most Like</a>
-        <a href="{% url 'forum' %}?order_by=least_like">Least Like</a>
+        <a class="badge bg-secondary" href="{% url 'forum' %}?order_by=latest_post">Latest Post</a>
+        <a class="badge bg-secondary" href="{% url 'forum' %}?order_by=oldest_post">Oldest Post</a>
+        <a class="badge bg-secondary" href="{% url 'forum' %}?order_by=most_recent_activity">Most Recent Activity</a>
+        <a class="badge bg-secondary" href="{% url 'forum' %}?order_by=oldest_activity">Oldest Activity</a>
+        <a class="badge bg-secondary" href="{% url 'forum' %}?order_by=most_like">Most Like</a>
+        <a class="badge bg-secondary" href="{% url 'forum' %}?order_by=least_like">Least Like</a>
     </p>
 
     {% for post in posts %}
@@ -36,7 +28,7 @@
                 <h3 class="card-title">{{ post.title }}</h3>
                 <h5 class="card-subtitle mb-2 text-muted">{{ post.created_on }}</h5>
                 {% for tag in post.tags.all %}
-                    <a href="{% url 'tag_view' tag.slug %}" class="">#{{ tag }}</a>
+                    <a class="badge rounded-pill bg-light text-dark" href="{% url 'tag_view' tag.slug %}">#{{ tag }}</a>
                 {% endfor %}
                 <p class="card-text">{{ post.content }}</p>
                 <p>{{ post.like.count }} likes</p>

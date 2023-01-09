@@ -3,6 +3,16 @@ body {
     
 }
 
+a {
+    text-decoration: none !important;
+}
+
+a:hover {
+    color: #939393 !important;
+}
+
 .bootstrap-tagsinput .tag {
     background-color: blue;
 }
+
+.sort-order
