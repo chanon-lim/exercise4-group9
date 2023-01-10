@@ -42,7 +42,7 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
-    content = RichTextField()
+    content = models.TextField(max_length=1000)
     created_on = models.DateTimeField(auto_now_add=True)
 
     like = models.ManyToManyField(

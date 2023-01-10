@@ -3,16 +3,15 @@
 
 {% block content %}
 <div class="container">
-    <form action="." method="POST" id="post-form">
+    <form action="{% url 'post_create' %}" method="POST" id="post-form">
         {% csrf_token %}
         {{ form.media }}
         {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">投稿</button>
+        <button type="submit" class="btn btn-primary">編集</button>
     </form>
 </div>
 {% endblock content %}
 
 {% block script %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
-<script src="{% static 'js/tagsinput.js' %}"></script>
 {% endblock %}

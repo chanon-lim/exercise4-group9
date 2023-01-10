@@ -1,0 +1,36 @@
+{% load post_tags %}
+{% load humanize %}
+
+{% for post in posts %}
+    <div class="post card mb-3">
+        <div class="card-body">
+            <div class="clearfix">
+                <div class="float-start">{{ post.user.email|robohash:50 }}</div>
+                <div class="p-0">
+                    <h3 class="card-title">{{ post.title }}</h3>
+                    <h6 class="card-subtitle mb-2 text-muted">
+                        {{ post.user.username }}
+                        {% if post.created_on|is_recent %}
+                        {{ post.created_on|naturaltime }}
+                        {% else %}
+                        {{ post.created_on }}
+                        {% endif %}
+                    </h6>
+                </div>
+            </div>
+            {% for tag in post.tags.all %}
+                <a class="badge rounded-pill bg-iniad text-light" href="{% url 'tag_view' tag.slug %}">#{{ tag }}</a>
+            {% endfor %}
+            <p class="card-text mt-2">{{ post.content|safe|truncatechars:200 }}</p>
+            <p>
+                {% if request.user in post.like.all %}
+                <i class="fa-solid fa-thumbs-up fa-xl"></i>
+                {% else %}
+                <i class="fa-regular fa-thumbs-up fa-xl"></i> 
+                {% endif %}
+                {{ post.like.count }}
+            </p>
+            <a href="{% url 'post_detail' post.id %}" class="stretched-link"></a>
+        </div>
+    </div>
+{% endfor %}

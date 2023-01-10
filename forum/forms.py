@@ -32,12 +32,19 @@ class SubmitForm(forms.ModelForm):
 
 
 class CommentForm(forms.ModelForm):
+    content = forms.CharField(
+        max_length=1000,
+        required=True,
+        label='',
+        widget=forms.Textarea(
+            attrs={'class': 'form-control', 'rows': 5, 'width': 'auto'}
+        )
+    )
+
     class Meta:
         model = Comment
         fields = ['content']
-        labels = {
-            'content': '',
-        }
+
 
 
 class UserEditForm(forms.ModelForm):

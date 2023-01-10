@@ -69,8 +69,8 @@ def post_create(request):
             # For saving tag
             submit_form.save_m2m()
             return redirect('post_detail', post_id=post.pk)
-    submit_form = SubmitForm()
 
+    submit_form = SubmitForm()
     context = {
         'form': submit_form
     }
@@ -188,7 +188,21 @@ def profile(request):
     """
     User profile
     """
-    return render(request, 'forum/profile.html')
+    show = request.GET.get('show')
+    if show == 'comment':
+        comments = Comment.objects.filter(user=request.user).order_by('created_on')
+        context = {
+            'type': 'comment',
+            'comments': comments,
+        }
+    else:
+        posts = Post.objects.filter(user=request.user).order_by('created_on')
+        context = {
+            'type': 'post',
+            'posts': posts,
+        }
+
+    return render(request, 'forum/profile.html', context)
 
 
 @login_required

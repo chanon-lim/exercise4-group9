@@ -33,7 +33,11 @@
             <ul class="navbar-nav mb-2 mb-lg-0 ml-auto">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-light" href="" data-bs-toggle="dropdown" aria-expanded="false">
+                        {% if user.is_authenticated %}
+                        {{ user.username }}
+                        {% else %}
                         アカウント
+                        {% endif %}
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
                         {% if user.is_authenticated %}

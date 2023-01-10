@@ -1,4 +1,5 @@
 {% extends 'base/base.html' %}
+{% load humanize %}
 {% load post_tags %}
 
 {% block content %}
@@ -13,12 +14,44 @@
                 {{ request.user.profile.bio }}
             </p>
             <br>
-                <a class="btn btn-primary" href="{% url 'profile_edit' %}">Edit</a>
+                <a class="btn btn-primary" href="{% url 'profile_edit' %}">プロフィール編集</a>
         </div>
     </div>     
-    <div class="row">
-        <button class="col-6">Posts</button>
-        <button class="col-6">Comments</button>
+
+    <div class="row mt-3 mb-3">
+        <a class="btn btn-light border col-6" href="{% url 'profile' %}?show=post">投稿</a>
+        <a class="btn btn-light border col-6" href="{% url 'profile' %}?show=comment">コメント</a>
     </div>
+
+    {% if type == 'comment' %}
+        {% if comments %}
+        {% for comment in comments %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">投稿: {{ comment.post.title }}</h6>
+                    <h6 class="card-subtitle text-muted">
+                        {% if comment.created_on|is_recent %}
+                        {{ comment.created_on|naturaltime }}
+                        {% else %}
+                        {{ comment.created_on }}
+                        {% endif %}
+                    </h6>
+                    <p class="card-text pt-2 pl-3">{{ comment.content|safe }}</p>
+                    <div>
+                        {% include "forum/comment_like_area.html" %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        {% else %}
+            <h3 class="text-center mt-3">現在のコメントはありません</h3>
+        {% endif %}
+    {% else %}
+        {% if posts %}
+            {% include "forum/post_list.html" %}
+        {% else %}
+            <h3 class="text-center mt-3">現在の投稿はありません</h3>
+        {% endif %}
+    {% endif %}
 </div>
 {% endblock %}
