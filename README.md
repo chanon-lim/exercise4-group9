@@ -15,3 +15,9 @@ pip install -r requirements.txt
 ```
 SECRET_KEY = 'ここにSECRET_KEYの値を入力する'
 ```
+3. 以下のコマンドを実行
+```
+python manage.py makemigrations
+python manage.py migrate
+python manage.py runserver
+```
