@@ -1,0 +1,24 @@
+{% extends 'base/base.html' %}
+{% load post_tags %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-3">
+        <div class="col-2">
+            {{ request.user.email|robohash }}
+        </div>
+        <div class="col-10 align-self-end">
+            <h1>{{ request.user.username }}</h1>
+            <p>
+                {{ request.user.profile.bio }}
+            </p>
+            <br>
+                <a class="btn btn-primary" href="{% url 'profile_edit' %}">Edit</a>
+        </div>
+    </div>     
+    <div class="row">
+        <button class="col-6">Posts</button>
+        <button class="col-6">Comments</button>
+    </div>
+</div>
+{% endblock %}

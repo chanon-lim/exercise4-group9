@@ -1,21 +1,21 @@
-from django.conf import settings
+from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
 from django.db import models
 from django.http import HttpResponseForbidden
 from taggit.managers import TaggableManager
-from ckeditor.fields import RichTextField
 
 
 class Profile(models.Model):
     user = models.OneToOneField(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.PROTECT,
+        User,
+        blank=True,
+        on_delete=models.CASCADE,
     )
-    image = models.ImageField(blank=True)
-    bio = models.CharField(max_length=240, blank=True)
+    bio = models.TextField(max_length=300, default='こんにちは！')
+    password = models.CharField(blank=True, max_length=32)
 
     def __str__(self):
-        return self.user.get_username()
+        return str(self.user)
 
 
 class Post(models.Model):

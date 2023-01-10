@@ -1,0 +1,12 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<div class="container">
+    <form action="." method="POST" id="profile-form">
+        {% csrf_token %}
+        {{ user_form.as_p }}
+        {{ profile_form.as_p }}
+        <button type="submit" class="btn btn-primary">編集</button>
+    </form>
+</div>
+{% endblock %}

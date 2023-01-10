@@ -1,6 +1,7 @@
 from django import forms
+from django.contrib.auth.models import User
 
-from .models import Comment, Post
+from .models import Comment, Post, Profile
 
 
 class SubmitForm(forms.ModelForm):
@@ -37,3 +38,29 @@ class CommentForm(forms.ModelForm):
         labels = {
             'content': '',
         }
+
+
+class UserEditForm(forms.ModelForm):
+    username = forms.CharField(
+        max_length=32,
+        required=True,
+        label='ユーザーネーム',
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+
+    class Meta:
+        model = User
+        fields = ['username']
+
+
+class ProfileEditForm(forms.ModelForm):
+    bio = forms.CharField(
+        max_length=300,
+        required=True,
+        label='プロフィール',
+        widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 5})
+    )
+
+    class Meta:
+        model = Profile
+        fields = ['bio']

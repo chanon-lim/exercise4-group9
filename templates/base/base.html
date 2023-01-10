@@ -32,12 +32,12 @@
             </ul>
             <ul class="navbar-nav mb-2 mb-lg-0 ml-auto">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-light" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle text-light" href="" data-bs-toggle="dropdown" aria-expanded="false">
                         アカウント
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end">
                         {% if user.is_authenticated %}
-                        <li><a class="dropdown-item" href="#">プロフィール</a></li>
+                        <li><a class="dropdown-item" href="{% url 'profile' %}">プロフィール</a></li>
                         <li><a class="dropdown-item" href="{% url 'account_logout' %}?next={{ request.path }}">ログアウト</a></li>
                         {% else %}
                         <li><a class="dropdown-item" href="{% provider_login_url 'google' %}">ログイン</a></li>

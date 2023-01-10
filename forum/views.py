@@ -1,14 +1,15 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from taggit.models import Tag
 
-from .forms import CommentForm, SubmitForm
+from .forms import CommentForm, ProfileEditForm, SubmitForm, UserEditForm
 from .models import Comment, Post
 
 
-# Create your views here.
+# ---------- Forum homepage ----------
 def forum(request):
     """
     Homepage for forum
@@ -179,3 +180,38 @@ def comment_like(request, comment_id):
                 'forum/comment_like_area.html',
                 context={'comment': comment},
             )
+
+
+# ---------- Profile ----------
+@login_required
+def profile(request):
+    """
+    User profile
+    """
+    return render(request, 'forum/profile.html')
+
+
+@login_required
+def profile_edit(request):
+    """
+    Edit user profile
+    """
+    if request.method == 'POST':
+        user_form = UserEditForm(request.POST, instance=request.user)
+        profile_form = ProfileEditForm(
+            request.POST,
+            instance=request.user.profile,
+        )
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request, 'プロフィールが編集されました')
+            return redirect('profile')
+
+    user_form = UserEditForm(instance=request.user)
+    profile_form = ProfileEditForm(instance=request.user.profile)
+    context = {
+        'user_form': user_form,
+        'profile_form': profile_form,
+    }
+    return render(request, 'forum/profile_edit.html', context)

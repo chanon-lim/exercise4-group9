@@ -18,5 +18,7 @@ urlpatterns = [
         'comment/<int:comment_id>/like',
         views.comment_like,
         name='comment_like'
-    )
+    ),
+    path('profile/', views.profile, name='profile'),
+    path('profile/edit/', views.profile_edit, name='profile_edit'),
 ]
