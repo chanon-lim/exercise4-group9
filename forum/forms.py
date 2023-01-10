@@ -12,25 +12,22 @@ class SubmitForm(forms.ModelForm):
             'tags',
         ]
         labels = {
-            'title': 'Title',
-            'content': 'Content',
-            'tags': 'Tags',
+            'title': 'タイトル',
+            'content': '内容',
+            'tags': 'タグ',
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['tags'].widget.attrs.update({'data-role': 'tagsinput'})
-
-    # title = forms.CharField(label='Title', max_length=100)
-    # content = forms.CharField(
-    #     required=True,
-    #     widget=forms.Textarea(
-    #         attrs={
-    #             'rows': 5,
-    #             'placeholder': 'Content',
-    #             }
-    #         )
-    #     )
+        self.fields['title'].widget.attrs.update({
+            'class': 'form-control',
+        })
+        self.fields['tags'].widget.attrs.update({
+            'data-role': 'tagsinput',
+            'class': 'form-control',
+        })
+        self.fields['tags'].help_text = '\
+            </br><span class="text-muted">複数タグはカンマ区切りかエンター区切り</span>'
 
 
 class CommentForm(forms.ModelForm):

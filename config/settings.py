@@ -178,6 +178,7 @@ ACCOUNT_LOGOUT_ON_GET = True  # Skip the confirm logout page
 
 CKEDITOR_CONFIGS = {
     'default': {
+        'width': 'auto',
         'toolbar': 'Custom',
         'toolbar_Custom': [
             ['Bold', 'Italic', 'Underline'],
@@ -198,3 +199,7 @@ CKEDITOR_CONFIGS = {
         ]
     }
 }
+
+# Django taggit
+
+TAGGIT_CASE_INSENSITIVE = True

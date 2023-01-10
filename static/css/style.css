@@ -1,9 +1,15 @@
 body {
     font-family: Helvetica, sans-serif, Arial;
+    box-sizing: border-box;
+    margin: 0;
 }
 
 a {
     text-decoration: none !important;
+}
+
+.bg-iniad {
+    background-color: #3C8DBC;
 }
 
 .badge {
@@ -12,7 +18,8 @@ a {
 }
 
 .badge:hover {
-    color: #939393 !important;
+    color: #ECF0F5 !important;
+    transform: scale(1.01);
 }
 
 .post{
@@ -35,6 +42,20 @@ a {
     user-select: none;
 }
 
+.bootstrap-tagsinput {
+    width: 100% !important;
+}
+
 .bootstrap-tagsinput .tag {
-    background-color: blue;
+    display: inline-block;
+    padding: 0.35em 0.65em;
+    font-size: 0.75em;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    background-color: #3C8DBC;
+    border-radius: 50rem;
 }

@@ -32,9 +32,9 @@
                 {% endif %}
             </h6>
             {% for tag in post.tags.all %}
-                <a class="badge rounded-pill bg-light text-dark" href="{% url 'tag_view' tag.slug %}">#{{ tag }}</a>
+                <a class="badge rounded-pill bg-iniad text-light" href="{% url 'tag_view' tag.slug %}">#{{ tag }}</a>
             {% endfor %}
-            <p class="card-text">{{ post.content|safe }}</p>
+            <p class="card-text mt-2">{{ post.content|safe }}</p>
             <div>
                 {% include "forum/post_like_area.html" %}
             </div>
