@@ -1,8 +1,61 @@
 body {
     font-family: Helvetica, sans-serif, Arial;
-    
+    box-sizing: border-box;
+    margin: 0;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+.bg-iniad {
+    background-color: #3C8DBC;
+}
+
+.badge {
+    z-index: 2;
+    position: relative;
+}
+
+.badge:hover {
+    color: #ECF0F5 !important;
+    transform: scale(1.01);
+}
+
+.post{
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: 0 6px 10px rgba(0,0,0,.08), 0 0 6px rgba(0,0,0,.05);
+    transition: .3s transform cubic-bezier(.155, 1.105, .295, 1.12), 
+        .3s box-shadow, .3s -webkit-transform cubic-bezier(.1, 1.105, .295, 1.12);
+    padding: 14px 80px 0 36px;
+}
+
+.post:hover{
+    transform: scale(1.01);
+    box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);
+}
+
+.like {
+    cursor: pointer;
+    color: #000;
+    user-select: none;
+}
+
+.bootstrap-tagsinput {
+    width: 100% !important;
 }
 
 .bootstrap-tagsinput .tag {
-    background-color: blue;
+    display: inline-block;
+    padding: 0.35em 0.65em;
+    font-size: 0.75em;
+    font-weight: 700;
+    line-height: 1;
+    color: #fff;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    background-color: #3C8DBC;
+    border-radius: 50rem;
 }

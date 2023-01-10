@@ -41,12 +41,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django.contrib.humanize',
     'forum',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
     'taggit',
+    'ckeditor',
 ]
 
 MIDDLEWARE = [
@@ -170,3 +172,34 @@ LOGIN_URL = '/accounts/google/login'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 ACCOUNT_LOGOUT_ON_GET = True  # Skip the confirm logout page
+
+# django-ckeditor config
+# https://django-ckeditor.readthedocs.io/en/latest/#optional-customizing-ckeditor-editor
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'width': 'auto',
+        'toolbar': 'Custom',
+        'toolbar_Custom': [
+            ['Bold', 'Italic', 'Underline'],
+            [
+                'NumberedList',
+                'BulletedList',
+                '-',
+                'Outdent',
+                'Indent',
+                '-',
+                'JustifyLeft',
+                'JustifyCenter',
+                'JustifyRight',
+                'JustifyBlock'
+            ],
+            ['Link', 'Unlink'],
+            ['RemoveFormat', 'Source']
+        ]
+    }
+}
+
+# Django taggit
+
+TAGGIT_CASE_INSENSITIVE = True

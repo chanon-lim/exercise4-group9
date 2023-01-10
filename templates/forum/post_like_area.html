@@ -1,13 +1,13 @@
 <div id="postlikearea" class="pt-2">
     <p>
-        {{ post.like.count }} likes
-        <button hx-post="{% url 'post_like' post.id %}" id="post-like-button" 
-        hx-target="#postlikearea" hx-swap="outerHTML" class="btn btn-primary">
+        <a hx-post="{% url 'post_like' post.id %}" id="post-like-button" 
+        hx-target="#postlikearea" hx-swap="outerHTML" class="like">
             {% if request.user in post.like.all %}
-            <i>Unlike</i>
+            <i class="fa-solid fa-thumbs-up fa-xl"></i>
             {% else %}
-            <i>Like</i>
+            <i class="fa-regular fa-thumbs-up fa-xl"></i> 
             {% endif %}
-        </button>
+            {{ post.like.count }}
+        </a>
     </p>
 </div>

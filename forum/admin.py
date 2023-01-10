@@ -17,13 +17,12 @@ class PostAdmin(admin.ModelAdmin):
         "id",
         "title",
         "created_on",
-        "updated_on",
     )
     list_filter = (
         "created_on",
     )
     list_editable = (
-        "title", 
+        "title",
     )
     search_fields = (
         "title",

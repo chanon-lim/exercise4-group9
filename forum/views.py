@@ -1,8 +1,7 @@
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseForbidden
+from django.db.models import Count
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
-from django.db.models import Count
 from taggit.models import Tag
 
 from .forms import CommentForm, SubmitForm
@@ -22,19 +21,15 @@ def forum(request):
     elif order == 'oldest_post':
         posts = Post.objects.order_by('created_on')
     elif order == 'most_recent_activity':
-        posts = Post.objects.order_by('-comments__updated_on', '-updated_on')
+        posts = Post.objects.order_by('-comments__created_on', '-created_on')
     elif order == 'oldest_activity':
-        posts = Post.objects.order_by('comments__updated_on', 'updated_on')
+        posts = Post.objects.order_by('comments__created_on', 'created_on')
     elif order == 'most_like':
         posts = Post.objects.annotate(
             count=Count('like')
         ).order_by('-count')
-    elif order == 'least_like':
-        posts = Post.objects.annotate(
-            count=Count('like')
-        ).order_by('count')
     else:
-        posts = Post.objects.order_by('-updated_on')
+        posts = Post.objects.order_by('-created_on')
     common_tags = Post.tags.most_common()[:5]
 
     context = {
@@ -112,39 +107,6 @@ def post_detail(request, post_id):
     }
 
     return render(request, 'forum/post_detail.html', context)
-
-
-@login_required
-def post_edit(request, post_id):
-    """
-    Edit a post, only same user can edit it
-    """
-    post = get_object_or_404(Post, pk=post_id)
-    default_value = {
-        'title': post.title,
-        'content': post.content,
-        'tags': post.tags.all,
-    }
-
-    if post.user != request.user:
-        return HttpResponseForbidden()
-
-    if request.method == 'POST':
-        submit_form = SubmitForm(request.POST)
-        if submit_form.is_valid():
-            post = submit_form.save(commit=False)
-            post.user = request.user
-            post.save()
-            # For saving tag
-            submit_form.save_m2m()
-            return redirect('post_detail', post_id=post.pk)
-    submit_form = SubmitForm(initial=default_value)
-
-    context = {
-        'form': submit_form
-    }
-    # Use the post_create template for edit, may change later
-    return render(request, 'forum/post_create.html', context)
 
 
 @login_required
