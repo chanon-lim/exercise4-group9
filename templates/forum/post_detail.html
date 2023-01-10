@@ -2,20 +2,7 @@
 {% load static %}
 {% load humanize %}
 {% load post_tags %}
-<div class="clearfix">
-    <div class="float-start">{{ post.user.email|robohash:50 }}</div>
-    <div class="col-11 p-0">
-        <h3 class="card-title">{{ post.title }}</h3>
-        <h6 class="card-subtitle mb-2 text-muted">
-            {{ post.user.username }}
-            {% if post.created_on|is_recent %}
-            {{ post.created_on|naturaltime }}
-            {% else %}
-            {{ post.created_on }}
-            {% endif %}
-        </h6>
-    </div>
-</div>
+
 {% block content %}
 <div class="container">
     <div class="card mt-3">
