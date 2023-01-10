@@ -18,7 +18,7 @@ def is_recent(time):
     is_recent: boolean
     """
     return time + timezone.timedelta(days=7) > timezone.now()
-   
+
 
 # return an image tag with the gravatar
 # TEMPLATE USE:  {{ email|robohash:150 }}
