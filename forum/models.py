@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.http import HttpResponseForbidden
 from taggit.managers import TaggableManager
+from ckeditor.fields import RichTextField
 
 
 class Profile(models.Model):
@@ -19,7 +20,7 @@ class Profile(models.Model):
 
 class Post(models.Model):
     title = models.CharField(max_length=200)
-    content = models.TextField()
+    content = RichTextField(blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
 
     like = models.ManyToManyField(User, blank=True, related_name='post_like')
@@ -41,7 +42,7 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
-    content = models.TextField()
+    content = RichTextField()
     created_on = models.DateTimeField(auto_now_add=True)
 
     like = models.ManyToManyField(
