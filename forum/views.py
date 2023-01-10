@@ -190,13 +190,15 @@ def profile(request):
     """
     show = request.GET.get('show')
     if show == 'comment':
-        comments = Comment.objects.filter(user=request.user).order_by('created_on')
+        comments = Comment.objects.filter(
+            user=request.user
+        ).order_by('-created_on')
         context = {
             'type': 'comment',
             'comments': comments,
         }
     else:
-        posts = Post.objects.filter(user=request.user).order_by('created_on')
+        posts = Post.objects.filter(user=request.user).order_by('-created_on')
         context = {
             'type': 'post',
             'posts': posts,

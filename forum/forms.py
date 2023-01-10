@@ -46,7 +46,6 @@ class CommentForm(forms.ModelForm):
         fields = ['content']
 
 
-
 class UserEditForm(forms.ModelForm):
     username = forms.CharField(
         max_length=32,

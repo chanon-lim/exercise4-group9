@@ -1,7 +1,7 @@
-<div id="commentlikearea" class="pt-2">
+<div id="commentlikearea{{ comment.id }}" class="pt-2">
     <p>
         <a hx-post="{% url 'comment_like' comment.id %}" id="comment-like-button" 
-        hx-target="#commentlikearea" hx-swap="outerHTML" class="like">
+        hx-target="#commentlikearea{{ comment.id }}" hx-swap="outerHTML" class="like">
             {% if request.user in comment.like.all %}
             <i class="fa-solid fa-thumbs-up fa-xl"></i>
             {% else %}

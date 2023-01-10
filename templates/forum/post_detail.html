@@ -84,7 +84,7 @@
                         </ul>
                     </div>
                     {% endif %}
-                    <div class="float-start">{{ post.user.email|robohash:40 }}</div>
+                    <div class="float-start">{{ comment.user.email|robohash:40 }}</div>
                     <h5 class="card-title">{{ comment.user.username }}</h6>
                     <h6 class="card-subtitle text-muted">
                         {% if comment.created_on|is_recent %}
