@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "exercise4-group9"
-version = "0.1.0"
+version = "1.3.2"
 description = ""
 authors = ["chanon-lim <s1f102100041@iniad.org>"]
 readme = "README.md"
