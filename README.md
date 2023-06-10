@@ -1,4 +1,8 @@
-# 演習IV グループ９
+# INIAD Forum
+Google Authenticationなどの認証を利用したフォーラムWebアプリ
+
+![image](https://github.com/chanon-lim/exercise4-group9/assets/85671768/86146f54-8971-4dd9-b1eb-f18c53c5e6e5)
+
 
 # Installation
 
